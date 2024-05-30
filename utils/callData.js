@@ -32,12 +32,18 @@ var tabPanes = [];
 var tabContent = [];
 var clothesType =[];
 var clothesType1 =[];
+
 function renderProducts(productArr){
     let dataNavPills = [];
     let dataTabPanes = [];
+    let newData = [];
     dataNavPills = productArr.navPills;
     dataTabPanes =  productArr.tabPanes;
-    let newdataTabPanes =  dataTabPanes.map(obj => JSON.stringify(obj)).join("");
+    // console.log(dataTabPanes);
+    newData.push(dataTabPanes);
+    
+
+    // let newdataTabPanes =  dataTabPanes.map(obj => JSON.stringify(obj)).join("");
     let contentHTML = "";
     let contentHTML1 = "";
     for(let i = 0 ; i < dataNavPills.length ; i++){
@@ -54,7 +60,7 @@ function renderProducts(productArr){
           data-clothes-type="${clothesType}"
           type="button"
           role="tab"
-          onclick="listItemShow(this, '${escape(newdataTabPanes)}')"
+          onclick="listItemShow(this)"
           aria-controls="quan"
           aria-selected="false"
         >
@@ -69,10 +75,19 @@ function renderProducts(productArr){
         tabContent1 = dataNavPills[j].tabName;
         clothesType1 = dataNavPills[j].type;
         let divString1 = `
-        <div class="tab-pane a" id="${tabContent1}" data-type-navpill='${clothesType1}' role="tabpanel"></div>`;
+        <div class="tab-pane a row" id="${tabContent1}" data-type-navpill='${clothesType1}' role="tabpanel"></div>`;
         contentHTML1 += divString1;
     }
     document.getElementById("tab-content1").innerHTML  = contentHTML1;
     
+    // Lấy phần tử button
+    var button = document.querySelectorAll(".nav-link");
+    
+    // Gắn sự kiện onclick và truyền mảng vào hàm listItemShow
+    button.forEach(function(button) {
+        button.onclick = function() {
+            listItemShow(this, newData);
+        };
+    });
    
 }
